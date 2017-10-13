@@ -77,44 +77,44 @@ from ansible.plugins.callback import CallbackBase
 
 class SQLiteCallbackModule(CallbackBase):
 
-	def __init__(self):
-    	pass
+    def __init__(self):
+        pass
 
-	def v2_playbook_on_start(self, playbook):
+    def v2_playbook_on_start(self, playbook):
     """
     Run at the start of a playbook run
     """
-    	pass
-        
-	def v2_playbook_on_stats(self, stats):
+        pass
+
+    def v2_playbook_on_stats(self, stats):
     """
     Run at the end of a playbook run
     """
-    	pass
+        pass
 
-	def v2_runner_on_failed(self, result, **kwargs):
+    def v2_runner_on_failed(self, result, **kwargs):
     """
     Run when a task fails
     """
-    	pass
-	
+        pass
+
     def v2_runner_on_ok(self, result, **kwargs):
     """
     Run when a task succeeds
     """
-    	pass
-	
+        pass
+
     def v2_runner_on_skipped(self, result, **kwargs):
     """
     Run when a task is skipped
     """
-    	pass
-        
-	def v2_runner_on_unreachable(self, result, **kwargs):
+        pass
+
+    def v2_runner_on_unreachable(self, result, **kwargs):
     """
     Run when a host is unreachable
     """
-    	pass
+        pass
 ```
 
 That's all that's needed for ansible to do its part.  However, we need to tell ansible what to do during these method calls.  When each of these methods is run, the goal is to have a SQLite database populated with a log message.  Generally, we'll need to log a message during three events:
