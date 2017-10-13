@@ -165,7 +165,7 @@ class AnsibleFinish(Model):
 
     class Meta:
         database = DB
-        
+
 
 class AnsibleTask(Model):
 
@@ -200,12 +200,12 @@ from models import (AnsibleFinish, AnsibleImport, AnsibleStart, AnsibleTask)
 
 
 class SQLiteCallbackModule(CallbackBase):
-	# Ansible uses these environment variables
-	CALLBACK_VERSION = 2.0
+    # Ansible uses these environment variables
+    CALLBACK_VERSION = 2.0
     CALLBACK_TYPE = 'aggregate'
     CALLBACK_NAME = 'sqlite'
     CALLBACK_NEEDS_WHITELIST = True
-    
+
     def __init__(self):
         super(CallbackModule, self).__init__()
         self.hostname = socket.gethostname()
@@ -213,7 +213,7 @@ class SQLiteCallbackModule(CallbackBase):
         self.errors = 0
         self.start_time = datetime.utcnow() # Used to calculate total elapsed time
 
-	def v2_playbook_on_start(self, playbook):
+    def v2_playbook_on_start(self, playbook):
     """
     Run at the start of a playbook run
     """
@@ -234,8 +234,8 @@ class SQLiteCallbackModule(CallbackBase):
         ansible_start = AnsibleStart(**data)
         ansible_start.save()
         db.close()
-        
-	def v2_playbook_on_stats(self, stats):
+
+    def v2_playbook_on_stats(self, stats):
     """
     Run at the end of a playbook run
     """
@@ -268,7 +268,7 @@ class SQLiteCallbackModule(CallbackBase):
             ansible_finish.save()
             db.close()
 
-	def v2_runner_on_failed(self, result, **kwargs):
+    def v2_runner_on_failed(self, result, **kwargs):
     """
     Run when a task fails
     """
@@ -292,7 +292,7 @@ class SQLiteCallbackModule(CallbackBase):
         ansible_task = AnsibleTask(**data)
         ansible_task.save()
         db.close()
-	
+
     def v2_runner_on_ok(self, result, **kwargs):
     """
     Run when a task succeeds
@@ -302,7 +302,7 @@ class SQLiteCallbackModule(CallbackBase):
             db.create_table(AnsibleTask)
         except OperationalError:
             pass
-            
+
         data = {
             'status': "OK",
             'host': self.hostname,
@@ -316,7 +316,7 @@ class SQLiteCallbackModule(CallbackBase):
         ansible_task = AnsibleTask(**data)
         ansible_task.save()
         db.close()
-        
+
     def v2_runner_on_skipped(self, result, **kwargs):
     """
     Run when a task is skipped
@@ -339,8 +339,8 @@ class SQLiteCallbackModule(CallbackBase):
         ansible_task = AnsibleTask(**data)
         ansible_task.save()
         db.close()
-        
-	def v2_runner_on_unreachable(self, result, **kwargs):
+
+    def v2_runner_on_unreachable(self, result, **kwargs):
     """
     Run when a host is unreachable
     """
