@@ -1,6 +1,6 @@
 ---
 layout: post
-published: false
+published: true
 title: Ansible Callback Plugins
 date: '2017-10-10'
 ---
