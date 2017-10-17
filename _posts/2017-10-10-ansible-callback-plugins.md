@@ -375,7 +375,17 @@ The callback plugin follows a simple pattern for each method.
 
 ## Putting the callback plugin into action
 
-## How do I get informationn out of the database?
-5. Usage
-6. Future
-  - CLI client
+Now that the plugin is complete, we need to tell Ansible to use it.  This is fairly straightforward as Ansible has configuration options to do this.  Because I want this to apply to all tasks and playbook runs, I'll configure this in my global configuration file.
+
+```
+# ~/.ansible.cfg
+
+# 
+callback_whitelist = sqlite # This matches the CALLBACK_NAME variable defined in the SQLiteCallbackModule class
+callback_plugins = ~/ansible-plugins/sqlite/ # Path to directory containing the plugin
+bin_ansible_callbacks = True # Allow base ansible binary to use our plugin
+```
+
+With these three configuration changes, Ansible will now use the callback plugin to log results for all future playbook runs.
+
+## How do I get information out of the database?
