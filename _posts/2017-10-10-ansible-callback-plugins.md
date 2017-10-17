@@ -389,3 +389,28 @@ bin_ansible_callbacks = True # Allow base ansible binary to use our plugin
 With these three configuration changes, Ansible will now use the callback plugin to log results for all future playbook runs.
 
 ## How do I get information out of the database?
+
+Because the plugin is designed to write to a SQLite database, the only way to currently get data out is through SQL queries.
+
+```
+$ SQLITE_DB=~/test.db ansible -i localhost, -c local -m ping all
+
+localhost | SUCCESS => {
+    "changed": false,
+    "failed": false,
+    "ping": "pong"
+}
+
+$ sqlite3 ~/test.db
+SQLite version 3.16.0 2016-11-04 19:09:39
+Enter ".help" for usage hints.
+sqlite> .tables
+ansibletask
+sqlite> .headers on
+sqlite> select * from ansibletask;
+id|status|host|session|ansible_type|ansible_playbook|ansible_host|ansible_task|ansible_result|created_date
+1|OK|my-MacBook-Pro-2.local|f2a54958-b362-11e7-bd34-784f435c2f24|task|NO PLAYBOOK|localhost|TASK: ping|{"changed": false, "failed": false, "ping": "pong"}|2017-10-17 10:45:22.307856
+
+```
+
+This works just fine for simple queries if you're comfortable with writing SQL.  However, it's not very user friendly and could be abstracted better.  In the future, I'd like to write a command line client that will allow me to query the database easier.  I'd also like to write a web client that allows for easier browsing of the logs. 
